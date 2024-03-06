@@ -107,6 +107,16 @@ public class BoardDAO {
 			pstmt.setInt(1, num);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
+				/*
+			 	vo에 조회수를 넘겨줄때 1을 더하는 이유!?
+			 	바로 밑에서 updateCnt(num)이 실행되어 실제로 조회수는 증가한다.
+			 	
+			 	그러나 rs에 담긴 값들은 updateCnt(num)이 실행되기 이전의 값들을 담고 있으므로
+			 	이대로 데이터를 클라이언트에 넘긴다면 조회수 업데이트 이전의 데이터를 보내주는 것이 된다.
+			 	
+			 	그러므로 updateCnt(num)로 조회수가 증가한 것에 맞춰서
+			 	vo에 데이터를 담을 때도 num+1을 더해서 보내주는 것이다.
+			*/
 				updateCnt(num); // 조회수 증가
 				vo = new BoardVO(
 						rs.getInt(1),
