@@ -88,6 +88,41 @@ public class BoardDAO {
 		return ls;
 	}
 	
+	//상세조회 - 게시글 하나 조회
+	public BoardVO selectOne(int num) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		//primary key인 num으로 조회
+		String query = "select num, title, writer, content, regdate, cnt from board where num = ?";
+		
+		BoardVO vo = null;
+		
+		try {
+			con = ju.getConnection();
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				vo = new BoardVO(
+						rs.getInt(1),
+						rs.getString(2),
+						rs.getString(3),
+						rs.getString(4),
+						new Date(rs.getDate(5).getTime()),
+						rs.getInt(6));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(con, pstmt, rs);
+		}
+		
+		return vo;
+	}
+	
 	// finally{} 에 공통으로 들어갈 .close()부분을 메소드로 생성
 	//메소드에선 PreparedStatement를 쓰지만, 상위 인터페이스인 Statement의 타입으로 사용할 수도 있다
 	private void close(Connection con, Statement stmt, ResultSet rs) {
