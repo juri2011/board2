@@ -24,6 +24,7 @@ public class BoardDAO {
 	public int insert (BoardVO vo) {
 		Connection con = null;
 		PreparedStatement pstmt = null;
+		//num, regdate, cnt는 자동으로 삽입되고, 나머지는 사용자가 삽입한다
 		String query = "insert into board(num, title, writer, content, regdate, cnt) "
 				+ "values(board_seq.nextval, ?, ?, ?, sysdate, 0)";
 		
@@ -57,6 +58,7 @@ public class BoardDAO {
 		Statement stmt = null;
 		//전체 리스트 결과를 ResultSet에 담는다
 		ResultSet rs = null;
+		//전체 리스트 결과를 num을 기준으로 내림차순으로 조회
 		String query = "select num, title, writer, content, regdate, cnt from board order by num desc";
 		
 		List<BoardVO> ls = new ArrayList<>();
@@ -123,6 +125,33 @@ public class BoardDAO {
 		return vo;
 	}
 	
+	//수정(U)
+	public int update(BoardVO vo) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		//Primary key인 num을 이용하여 제목, 작성자, 내용 수정
+		String query = "update board set title=?, writer=?, content=? where num=?";
+		int ret = -1;
+		
+		try {
+			con = ju.getConnection();
+			pstmt = con.prepareStatement(query);
+			pstmt.setString(1, vo.getTitle());
+			pstmt.setString(2, vo.getWriter());
+			pstmt.setString(3, vo.getContent());
+			pstmt.setInt(4, vo.getNum());
+			
+			ret = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(con, pstmt);
+		}
+		
+		return ret;
+	}
+	
 	// finally{} 에 공통으로 들어갈 .close()부분을 메소드로 생성
 	//메소드에선 PreparedStatement를 쓰지만, 상위 인터페이스인 Statement의 타입으로 사용할 수도 있다
 	private void close(Connection con, Statement stmt, ResultSet rs) {
@@ -148,6 +177,8 @@ public class BoardDAO {
 				}
 			}
 		}
+	
+	
 	
 	//메소드 오버로딩
 	private void close(Connection con, PreparedStatement pstmt, ResultSet rs) {
