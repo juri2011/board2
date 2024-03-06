@@ -21,6 +21,16 @@ public class JdbcUtil {
 	*/
 	private static DataSource ds;
 	
+	/*
+		static {} ?
+		static block(스태틱 블록)
+		클래스 변수를 초기화시키는 용도로 사용한다.
+		클래스가 로딩되고 클래스 변수가 로딩되면 자동으로 실행된다.
+	*/
+	static {
+		
+	}
+	
 	private JdbcUtil() {}
 	public static JdbcUtil getInstance() {
 		return instance;
