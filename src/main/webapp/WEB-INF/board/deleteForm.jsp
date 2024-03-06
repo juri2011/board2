@@ -12,7 +12,8 @@
 %>
 	<form action="delete.jsp">
 		<input type="hidden" value="<%=num%>" name="num" />
-		삭제하시겠습니까? <input type="submit" value="예" />
+		<!-- history.back(); -> js에서 이전 페이지로 이동 하는 함수 -->
+		삭제하시겠습니까? <input type="submit" value="예" /> <input type="button" value="아니요" onclick="history.back()"/>
 	</form>
 	
 </body>
