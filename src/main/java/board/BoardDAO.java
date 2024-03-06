@@ -73,4 +73,16 @@ public class BoardDAO {
 				}
 			}
 		}
+	
+	//메소드 오버로딩
+	private void close(Connection con, PreparedStatement pstmt, ResultSet rs) {
+		//close()메소드가 parameter로 Statement 타입을 받으므로 pstmt를 형변환함
+		close(con, (Statement)pstmt, rs);
+	}
+	
+	//메소드 오버로딩
+	private void close(Connection con, PreparedStatement pstmt) {
+		//pstmt는 상위 인터페이스 Statement의 타입으로 사용할 수 있다
+		close(con, pstmt, null);
+	}
 }
