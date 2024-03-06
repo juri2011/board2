@@ -28,7 +28,17 @@ public class JdbcUtil {
 		클래스가 로딩되고 클래스 변수가 로딩되면 자동으로 실행된다.
 	*/
 	static {
-		
+		try {
+			/*
+ 				Class.forName()?
+ 				런타임 동적 로딩 : 실행 중에 JVM이 코드를 만나는 순간 클래스를 로딩
+ 				밑의 코드는 Oracle Driver를 로드한다.
+			*/
+			Class.forName("oracle.jdbc.OracleDriver");
+			System.out.println("드라이버 로딩 성공");
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private JdbcUtil() {}
