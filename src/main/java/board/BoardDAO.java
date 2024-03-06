@@ -107,13 +107,14 @@ public class BoardDAO {
 			pstmt.setInt(1, num);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
+				updateCnt(num); // 조회수 증가
 				vo = new BoardVO(
 						rs.getInt(1),
 						rs.getString(2),
 						rs.getString(3),
 						rs.getString(4),
 						new Date(rs.getDate(5).getTime()),
-						rs.getInt(6));
+						rs.getInt(6)+1);
 			}
 			
 		} catch (SQLException e) {
