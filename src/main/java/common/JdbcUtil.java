@@ -8,4 +8,7 @@ public class JdbcUtil {
 	*/
 	private static JdbcUtil instance = new JdbcUtil();
 	private JdbcUtil() {}
+	public static JdbcUtil getInstance() {
+		return instance;
+	}
 }
