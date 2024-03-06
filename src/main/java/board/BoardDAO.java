@@ -163,32 +163,6 @@ public class BoardDAO {
 		return ret;
 	}
 	
-	// finally{} 에 공통으로 들어갈 .close()부분을 메소드로 생성
-	//메소드에선 PreparedStatement를 쓰지만, 상위 인터페이스인 Statement의 타입으로 사용할 수도 있다
-	private void close(Connection con, Statement stmt, ResultSet rs) {
-			if(rs!=null) {
-				try {
-					rs.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if(stmt != null) {
-				try {
-					stmt.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			if(con != null) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-	
 	//카운터 증가
 	public int updateCnt(int num) {
 		Connection con = null;
@@ -211,6 +185,55 @@ public class BoardDAO {
 		return ret;
 	}
 	
+	//삭제(D)
+	public int delete(int num) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		//primary key인 num을 이용하여 삭제
+		String query = "delete from board where num=?";
+		//삭제된 행의 수
+		int ret = -1;
+		
+		try {
+			con = ju.getConnection();
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			ret = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(con, pstmt);
+		}
+		
+		return ret;
+	}
+	
+	//메소드에선 PreparedStatement를 쓰지만, 상위 인터페이스인 Statement의 타입으로 사용할 수도 있다
+	private void close(Connection con, Statement stmt, ResultSet rs) {
+		if(rs!=null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		if(stmt != null) {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		if(con != null) {
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+			
 	//메소드 오버로딩
 	private void close(Connection con, PreparedStatement pstmt, ResultSet rs) {
 		//close()메소드가 parameter로 Statement 타입을 받으므로 pstmt를 형변환함
