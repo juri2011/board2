@@ -68,12 +68,14 @@
 		<!-- setAttribute로 저장된 객체변수는 .(점)으로 가져올 수 있다 -->
 			<tr>
 				<td>${board.num}</td>
-				<td>${board.title}</td>
+				<!-- request를 pageConetext에서 받아오고, contextPath는 프로젝트명을 가져옴 + get방식 -->
+				<td><a href="${pageContext.request.contextPath}/board/boardDetail.jsp?num=${board.num}">${board.title}</a></td>
 				<td>${board.writer}</td>
 				<td>${board.regdate}</td>
 				<td>${board.cnt}</td>
 			</tr>
 		</c:forEach>
 	</table>
+	<a href='${pageContext.request.contextPath}/board/registForm.jsp'><button>글등록</button></a>
 </body>
 </html>
