@@ -2,7 +2,9 @@ package board;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import common.JdbcUtil;
 
@@ -45,4 +47,30 @@ public class BoardDAO {
 		
 		return ret;
 	}
+	
+	// finally{} 에 공통으로 들어갈 .close()부분을 메소드로 생성
+	//메소드에선 PreparedStatement를 쓰지만, 상위 인터페이스인 Statement의 타입으로 사용할 수도 있다
+	private void close(Connection con, Statement stmt, ResultSet rs) {
+			if(rs!=null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(stmt != null) {
+				try {
+					stmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if(con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 }
