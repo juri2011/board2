@@ -178,7 +178,27 @@ public class BoardDAO {
 			}
 		}
 	
-	
+	//카운터 증가
+	public int updateCnt(int num) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		//num으로 게시물을 찾아서 cnt(조회수)를 1 증가한다.
+		String query = "update board set cnt=cnt+1 where num=?";
+		int ret = -1;
+		
+		try {
+			con = ju.getConnection();
+			pstmt = con.prepareStatement(query);
+			pstmt.setInt(1, num);
+			ret = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(con, pstmt);
+		}
+		
+		return ret;
+	}
 	
 	//메소드 오버로딩
 	private void close(Connection con, PreparedStatement pstmt, ResultSet rs) {
