@@ -1,10 +1,13 @@
 package board;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import common.JdbcUtil;
 
@@ -46,6 +49,43 @@ public class BoardDAO {
 		}//end of finally
 		
 		return ret;
+	}
+	
+	//조회(R) - 게시글 리스트
+	public List<BoardVO> selectAll(){
+		Connection con = null;
+		Statement stmt = null;
+		//전체 리스트 결과를 ResultSet에 담는다
+		ResultSet rs = null;
+		String query = "select num, title, writer, content, regdate, cnt from board order by num desc";
+		
+		List<BoardVO> ls = new ArrayList<>();
+		
+		try {
+			con = ju.getConnection();
+			stmt = con.createStatement();
+			rs = stmt.executeQuery(query);
+			while(rs.next()) {
+				//list에 담을 vo 객체 생성
+				BoardVO vo = new BoardVO(
+						rs.getInt(1),
+						rs.getString(2),
+						rs.getString(3),
+						rs.getString(4),
+						new Date(rs.getDate(5).getTime()),
+						rs.getInt(6));
+				//vo 객체에 담아 list에 추가
+				ls.add(vo);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(con, stmt, rs);
+		}
+		
+		//전체 검색된 행 리스트 반환
+		return ls;
 	}
 	
 	// finally{} 에 공통으로 들어갈 .close()부분을 메소드로 생성
