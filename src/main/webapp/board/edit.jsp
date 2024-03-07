@@ -16,4 +16,4 @@
 	//response.sendRedirect(request.getContextPath() + "list.jsp");
 	
 %>
-<c:redirect url="${pageContext.request.contextPath}/boardDetail.jsp?num=${vo.num}"/>
+<c:redirect url="/board/boardDetail.jsp?num=${vo.num}"/>
