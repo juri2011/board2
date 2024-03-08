@@ -107,7 +107,18 @@ public class BoardDAO {
 			pstmt.setInt(1, num);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
-				/*
+			/*
+			 	------ !!!![주의]!!!! 이 주석 블록 안에 있는 코드는 더이상 쓰지 않음 ------
+			 	
+			 	[기존 코드]	findById()를 수행할 때마다 조회수를 올리는 updateCnt() 메소드 수행
+			 	
+			 	[문제점 발견]	게시글 수정 화면 editForm.jsp에서도 findById()를 수행하기때문에
+			 			    실제 게시글을 조회한 것이 아닌데도 조회수가 오르는 오작동이 있었다.
+			 			    
+			 	[해결방법]	updateCnt()를 여기서 빼고, list.jsp의 스크립트릿에 따로 추가했다.
+			 	
+			 	----- 아래 주석문은 바로 밑에서 updateCnt()를 사용했을 때 작성한 것이므로 실제 프로그램 동작과는 관련이 없다.(참고용) -----
+			 	
 			 	vo에 조회수를 넘겨줄때 1을 더하는 이유!?
 			 	바로 밑에서 updateCnt(num)이 실행되어 실제로 조회수는 증가한다.
 			 	
@@ -116,15 +127,23 @@ public class BoardDAO {
 			 	
 			 	그러므로 updateCnt(num)로 조회수가 증가한 것에 맞춰서
 			 	vo에 데이터를 담을 때도 num+1을 더해서 보내주는 것이다.
-			*/
-				updateCnt(num); // 조회수 증가
-				vo = new BoardVO(
+			 	
+			 	updateCnt(num); // 조회수 증가
+			 	vo = new BoardVO(
 						rs.getInt(1),
 						rs.getString(2),
 						rs.getString(3),
 						rs.getString(4),
 						new Date(rs.getDate(5).getTime()),
 						rs.getInt(6)+1);
+			*/
+				vo = new BoardVO(
+						rs.getInt(1),
+						rs.getString(2),
+						rs.getString(3),
+						rs.getString(4),
+						new Date(rs.getDate(5).getTime()),
+						rs.getInt(6));
 			}
 			
 		} catch (SQLException e) {

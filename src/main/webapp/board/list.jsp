@@ -56,7 +56,7 @@
 </head>
 <body>
 	<h2>게시글 목록</h2>
-	<table border="1">
+	<table border="1" style="border-collapse : collapse">
 		<tr>
 			<td>번호</td>
 			<td>제목</td>
