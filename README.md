@@ -4,7 +4,7 @@ jsp를 기반으로 국비지원 수업 때 진행된 게시판 CRUD 실습 예�
 ## :computer: 개발 환경
 * `JAVA11`
 * `Eclipse`
-* `OracleDB`
+* `Oracle`
 * `JSP`
 
 ## :memo: 요구사항
