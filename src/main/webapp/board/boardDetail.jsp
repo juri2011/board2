@@ -32,6 +32,7 @@ if(dao == null){
 	response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");//http1.1
 	response.setHeader("Pragma", "no-cache");//http1.0
 	response.setDateHeader("Expires", 0);
+	
 	int num = Integer.parseInt(request.getParameter("num"));
 	//editForm.jsp에서도 selectOne을 수행하므로 조회수 증가는 이 페이지에서만 수행
 	dao.updateCnt(num); // 조회수 증가
